@@ -1,0 +1,12 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: mybatis-study
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/mybatis?zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: root
+mybatis:
+  type-aliases-package: com.g1335333249.entity

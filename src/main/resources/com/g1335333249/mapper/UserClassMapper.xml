@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.g1335333249.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.g1335333249.entity.User">
+<mapper namespace="com.g1335333249.mapper.UserClassMapper">
+  <resultMap id="BaseResultMap" type="com.g1335333249.entity.UserClass">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="class_id" jdbcType="BIGINT" property="classId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, mobile, type
+    id, class_id, user_id
   </sql>
-  <select id="selectByExample" parameterType="com.g1335333249.entity.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.g1335333249.entity.UserClassExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from user_class
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +84,65 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from user_class
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from user
+    delete from user_class
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.g1335333249.entity.UserExample">
-    delete from user
+  <delete id="deleteByExample" parameterType="com.g1335333249.entity.UserClassExample">
+    delete from user_class
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.g1335333249.entity.User">
+  <insert id="insert" parameterType="com.g1335333249.entity.UserClass">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (name, mobile, type
-      )
-    values (#{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}
-      )
+    insert into user_class (class_id, user_id)
+    values (#{classId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.g1335333249.entity.User">
+  <insert id="insertSelective" parameterType="com.g1335333249.entity.UserClass">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user
+    insert into user_class
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="classId != null">
+        class_id,
       </if>
-      <if test="mobile != null">
-        mobile,
-      </if>
-      <if test="type != null">
-        type,
+      <if test="userId != null">
+        user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="classId != null">
+        #{classId,jdbcType=BIGINT},
       </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.g1335333249.entity.UserExample" resultType="java.lang.Long">
-    select count(*) from user
+  <select id="countByExample" parameterType="com.g1335333249.entity.UserClassExample" resultType="java.lang.Long">
+    select count(*) from user_class
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update user_class
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.classId != null">
+        class_id = #{record.classId,jdbcType=BIGINT},
       </if>
-      <if test="record.mobile != null">
-        mobile = #{record.mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +150,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update user_class
     set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER}
+      class_id = #{record.classId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.g1335333249.entity.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.g1335333249.entity.UserClass">
+    update user_class
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=BIGINT},
       </if>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.g1335333249.entity.User">
-    update user
-    set name = #{name,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.g1335333249.entity.UserClass">
+    update user_class
+    set class_id = #{classId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

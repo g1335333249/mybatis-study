@@ -10,3 +10,7 @@ spring:
     password: root
 mybatis:
   type-aliases-package: com.g1335333249.entity
+#  config-location: classpath:generatorConfig.xml
+logging:
+  level:
+    com.g1335333249.mapper: debug

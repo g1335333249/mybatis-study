@@ -32,7 +32,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table schema="mybatis" tableName="user" domainObjectName="User">
+        <table schema="mybatis" tableName="student" domainObjectName="Student">
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
 

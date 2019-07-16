@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.g1335333249.mapper.ClassInfoMapper">
-    <resultMap id="BaseResultMap" type="com.g1335333249.entity.ClassInfo">
+<mapper namespace="com.g1335333249.mapper.StudentMapper">
+    <resultMap id="BaseResultMap" type="com.g1335333249.entity.Student">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="class_info_id" jdbcType="BIGINT" property="classInfoId"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -66,15 +67,15 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, name
+    id, name, class_info_id
   </sql>
-    <select id="selectByExample" parameterType="com.g1335333249.entity.ClassInfoExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.g1335333249.entity.StudentExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         <include refid="Base_Column_List"/>
-        from class_info
+        from student
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
@@ -85,50 +86,56 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from class_info
+        from student
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from class_info
+    delete from student
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <delete id="deleteByExample" parameterType="com.g1335333249.entity.ClassInfoExample">
-        delete from class_info
+    <delete id="deleteByExample" parameterType="com.g1335333249.entity.StudentExample">
+        delete from student
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.g1335333249.entity.ClassInfo">
+    <insert id="insert" parameterType="com.g1335333249.entity.Student">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into class_info (name)
-        values (#{name,jdbcType=VARCHAR})
+        insert into student (name, class_info_id)
+        values (#{name,jdbcType=VARCHAR}, #{classInfoId,jdbcType=BIGINT})
     </insert>
-    <insert id="insertSelective" parameterType="com.g1335333249.entity.ClassInfo">
+    <insert id="insertSelective" parameterType="com.g1335333249.entity.Student">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into class_info
+        insert into student
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">
                 name,
+            </if>
+            <if test="classInfoId != null">
+                class_info_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
+            <if test="classInfoId != null">
+                #{classInfoId,jdbcType=BIGINT},
+            </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.g1335333249.entity.ClassInfoExample" resultType="java.lang.Long">
-        select count(*) from class_info
+    <select id="countByExample" parameterType="com.g1335333249.entity.StudentExample" resultType="java.lang.Long">
+        select count(*) from student
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
-        update class_info
+        update student
         <set>
             <if test="record.id != null">
                 id = #{record.id,jdbcType=BIGINT},
@@ -136,43 +143,48 @@
             <if test="record.name != null">
                 name = #{record.name,jdbcType=VARCHAR},
             </if>
+            <if test="record.classInfoId != null">
+                class_info_id = #{record.classInfoId,jdbcType=BIGINT},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
-        update class_info
+        update student
         set id = #{record.id,jdbcType=BIGINT},
-        name = #{record.name,jdbcType=VARCHAR}
+        name = #{record.name,jdbcType=VARCHAR},
+        class_info_id = #{record.classInfoId,jdbcType=BIGINT}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.g1335333249.entity.ClassInfo">
-        update class_info
+    <update id="updateByPrimaryKeySelective" parameterType="com.g1335333249.entity.Student">
+        update student
         <set>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
             </if>
+            <if test="classInfoId != null">
+                class_info_id = #{classInfoId,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.g1335333249.entity.ClassInfo">
-    update class_info
-    set name = #{name,jdbcType=VARCHAR}
+    <update id="updateByPrimaryKey" parameterType="com.g1335333249.entity.Student">
+    update student
+    set name = #{name,jdbcType=VARCHAR},
+      class_info_id = #{classInfoId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <resultMap id="classStudentInfoResultMap" type="com.g1335333249.model.ClassStudentInfo">
+    <resultMap id="LazyUserInfoResultMap" type="com.g1335333249.model.StudentInfo">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <collection property="students" ofType="com.g1335333249.entity.Student">
-            <id column="student_id" jdbcType="BIGINT" property="id"/>
-            <result column="student_name" jdbcType="VARCHAR" property="name"/>
-            <result column="class_info_id" jdbcType="BIGINT" property="classInfoId"/>
-        </collection>
+        <result column="class_info_id" jdbcType="BIGINT" property="classInfoId"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
     </resultMap>
-    <select id="selectClassUserInfoByResultMap" resultMap="classStudentInfoResultMap" parameterType="java.lang.Long">
-        SELECT ci.*,s.id student_id,s.`name` student_name,s.class_info_id FROM class_info ci LEFT JOIN student s ON s.class_info_id = ci.id WHERE ci.id = #{classId}
+    <select id="selectStudentInfoToResultMap" resultMap="LazyUserInfoResultMap">
+        SELECT s.*,ci.`name` as class_name FROM `student` s LEFT JOIN class_info ci ON s.class_info_id = ci.id WHERE s.id = #{studentId}
     </select>
 </mapper>

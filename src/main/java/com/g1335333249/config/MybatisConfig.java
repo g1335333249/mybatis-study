@@ -1,11 +1,9 @@
 package com.g1335333249.config;
 
-import com.g1335333249.plugins.TestPlugin;
-import com.g1335333249.typeHandlers.TestTypeHandler;
-import org.apache.ibatis.plugin.Interceptor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.loader.cglib.CglibProxyFactory;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,7 +16,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
  * @author guanpeng
@@ -27,6 +24,7 @@ import java.util.Properties;
 @Configuration
 @MapperScan(basePackages = {"com.g1335333249.mapper"})
 @EnableTransactionManagement(proxyTargetClass = true)
+@Slf4j
 public class MybatisConfig {
     @Autowired
     private DataSource dataSource;
@@ -34,18 +32,27 @@ public class MybatisConfig {
     @Lazy(value = false)
     @Bean(value = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory() throws Exception {
+        log.info("**************    init sqlSessionFactory    **************");
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        Properties properties = new Properties();
-        properties.setProperty("proxyFactory", "CGLIB");
-        properties.setProperty("lazyLoadingEnabled", "true");
-        properties.setProperty("aggressiveLazyLoading", "false");
-        sqlSessionFactoryBean.setConfigurationProperties(properties);
+//        Properties properties = new Properties();
+//        properties.setProperty("proxyFactory", "CGLIB");
+//        properties.setProperty("lazyLoadingEnabled", "true");
+//        properties.setProperty("aggressiveLazyLoading", "false");
+//        sqlSessionFactoryBean.setConfigurationProperties(properties);
         sqlSessionFactoryBean.setDataSource(dataSource);
         // 自定义TypeHandler
-        sqlSessionFactoryBean.setTypeHandlers(new TypeHandler[]{new TestTypeHandler()});
+//        sqlSessionFactoryBean.setTypeHandlers(new TypeHandler[]{new TestTypeHandler()});
         //自定义Plugin
-        sqlSessionFactoryBean.setPlugins(new Interceptor[]{new TestPlugin()});
-        return sqlSessionFactoryBean.getObject();
+//        sqlSessionFactoryBean.setPlugins(new Interceptor[]{new TestPlugin()});
+        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
+        // 开启懒加载
+        sqlSessionFactory.getConfiguration().setLazyLoadingEnabled(true);
+        // 有一个属性被访问就加载所有属性
+        sqlSessionFactory.getConfiguration().setAggressiveLazyLoading(false);
+        // 设置动态代理
+        sqlSessionFactory.getConfiguration().setProxyFactory(new CglibProxyFactory());
+        log.info("************** finish init sqlSessionFactory **************");
+        return sqlSessionFactory;
     }
 
     @Primary

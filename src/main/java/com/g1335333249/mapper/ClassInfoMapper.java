@@ -2,8 +2,10 @@ package com.g1335333249.mapper;
 
 import com.g1335333249.entity.ClassInfo;
 import com.g1335333249.entity.ClassInfoExample;
-import java.util.List;
+import com.g1335333249.model.ClassStudentInfo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ClassInfoMapper {
     long countByExample(ClassInfoExample example);
@@ -27,4 +29,7 @@ public interface ClassInfoMapper {
     int updateByPrimaryKeySelective(ClassInfo record);
 
     int updateByPrimaryKey(ClassInfo record);
+
+    ClassStudentInfo selectClassUserInfoByResultMap(Long classId);
+
 }

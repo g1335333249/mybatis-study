@@ -10,7 +10,13 @@ spring:
     password: root
 mybatis:
   type-aliases-package: com.g1335333249.entity
+#  mapper-locations: classpath:com/g1335333249/mapper/*.xml
 #  config-location: classpath:generatorConfig.xml
 logging:
   level:
     com.g1335333249.mapper: debug
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

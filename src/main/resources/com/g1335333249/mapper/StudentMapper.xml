@@ -187,4 +187,10 @@
     <select id="selectStudentInfoToResultMap" resultMap="LazyUserInfoResultMap">
         SELECT s.*,ci.`name` as class_name FROM `student` s LEFT JOIN class_info ci ON s.class_info_id = ci.id WHERE s.id = #{studentId}
     </select>
+    <select id="selectUserInfoByClassId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM student
+        where class_info_id = #{id,jdbcType=BIGINT}
+    </select>
 </mapper>

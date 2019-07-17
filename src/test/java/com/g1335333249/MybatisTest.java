@@ -87,4 +87,21 @@ public class MybatisTest {
         log.error("class student info is {}", classStudentInfo);
         log.error("***************    select one to many to resultMap    ***************");
     }
+
+    @Test
+    public void selectClassUserInfoToOneToManyResultMap2() {
+        log.error("***************    select one to many to resultMap    ***************");
+//        List<Student> students = studentMapper.selectUserInfoByClassId(1L);
+//        System.out.println(students);
+        ClassStudentInfo classStudentInfo = classInfoMapper.selectClassUserInfoByResultMap2(1L);
+        log.error("class student info is {}", classStudentInfo);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<Student> students = classStudentInfo.getStudents();
+        System.out.println(students);
+        log.error("***************    select one to many to resultMap    ***************");
+    }
 }

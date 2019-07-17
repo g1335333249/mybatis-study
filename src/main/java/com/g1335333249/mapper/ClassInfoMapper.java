@@ -32,4 +32,6 @@ public interface ClassInfoMapper {
 
     ClassStudentInfo selectClassUserInfoByResultMap(Long classId);
 
+    ClassStudentInfo selectClassUserInfoByResultMap2(Long id);
+
 }

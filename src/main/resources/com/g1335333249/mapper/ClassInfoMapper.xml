@@ -175,4 +175,15 @@
     <select id="selectClassUserInfoByResultMap" resultMap="classStudentInfoResultMap" parameterType="java.lang.Long">
         SELECT ci.*,s.id student_id,s.`name` student_name,s.class_info_id FROM class_info ci LEFT JOIN student s ON s.class_info_id = ci.id WHERE ci.id = #{classId}
     </select>
+    <resultMap id="classStudentInfoResultMap2" type="com.g1335333249.model.ClassStudentInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <collection column="id" property="students" ofType="com.g1335333249.entity.Student" select="com.g1335333249.mapper.StudentMapper.selectUserInfoByClassId"></collection>
+    </resultMap>
+    <select id="selectClassUserInfoByResultMap2" resultMap="classStudentInfoResultMap2" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from class_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
 </mapper>

@@ -38,4 +38,7 @@ public interface StudentMapper {
     StudentInfo selectUserInfoByUserId(Long id);
 
     StudentInfo selectStudentInfoToResultMap(Long studentId);
+
+//    @Select(value = "SELECT s.id,s.`name`,s.class_info_id as classInfoId as className FROM `student` s where s.class_info_id = #{id}")
+    List<Student> selectUserInfoByClassId(Long id);
 }
